@@ -1,0 +1,15 @@
+{
+  "name": "bundl",
+  "version": "0.0.0",
+  "description": "Develop frontend bundles with ease",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seebigs/bundl.git"
+  },
+  "author": "Chris Bigelow",
+  "bugs": {
+    "url": "https://github.com/seebigs/bundl/issues"
+  },
+  "homepage": "https://github.com/seebigs/bundl#readme"
+}
