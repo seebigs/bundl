@@ -1,15 +1,29 @@
 {
   "name": "bundl",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Develop frontend bundles with ease",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/seebigs/bundl.git"
   },
-  "author": "Chris Bigelow",
+  "author": "Chris Bigelow <seebigswork@gmail.com>",
   "bugs": {
     "url": "https://github.com/seebigs/bundl/issues"
   },
-  "homepage": "https://github.com/seebigs/bundl#readme"
+  "license": "MIT",
+  "dependencies": {
+    "bundl-utils": "^1.0.0",
+    "chalk": "^1.1.3",
+    "del": "^2.2.1",
+    "express": "^4.14.0",
+    "glob": "^7.0.5",
+    "minimist": "^1.2.0",
+    "morgan": "^1.7.0",
+    "node-watch": "^0.4.0",
+    "parseurl": "^1.3.1",
+    "pretty-hrtime": "^1.0.2",
+    "send": "^0.14.1",
+    "serve-index": "^1.8.0"
+  }
 }
