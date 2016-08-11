@@ -9,7 +9,7 @@ In short it's, **a modern build tool**. Bundl is a flexible way to package your 
 
 ## Why Use Bundl?
 * Build resoucres only when requested by your browser (and only if they've changed) ([Example](wiki/Examples))
-* Easily concatenate, require, and wrap all of your various resources to generate the bundle you really need ([Example](wiki/Examples))
+* Easily concat, require, and wrap all of your various resources to generate the bundle you really need ([Example](wiki/Examples))
 * Run other tasks like linting, file system operations, etc. ([Example](wiki/Examples))
 * Get unit test coverage fast (without the overhead of PhantomJS) ([Example](wiki/Examples))
 
