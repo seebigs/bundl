@@ -1,8 +1,17 @@
 # Bundl
-**Develop frontend bundles with ease**
+> Develop frontend bundles with ease
+* [API Documentation](wiki/API-Documentation)
+* [Popular Extensions](wiki/Popular-Extensions)
+* [Examples](wiki/Examples)
 
-For options, configurations, and extended features, have a look at:
-> [API Documentation](docs/api) :: [Popular Extensions](docs/extensions) :: [Examples](docs/examples)
+## What Is Bundl?
+In short it's, **a modern build tool**. Bundl is a flexible way to package your source code plus additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
+
+## Why Use Bundl?
+* Build resoucres only when requested by your browser (and only if they've changed) ([Example](wiki/Examples))
+* Easily concatenate, require, and wrap all of your various resources to generate the bundle you really need ([Example](wiki/Examples))
+* Run other tasks like linting, file system operations, etc. ([Example](wiki/Examples))
+* Get unit test coverage fast (without the overhead of PhantomJS) ([Example](wiki/Examples))
 
 ---
 ## Get Started
