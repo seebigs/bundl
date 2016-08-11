@@ -17,13 +17,13 @@ function load (loadPath, callback) {
     if (Array.isArray(loadPath)) {
         // iterate, validate, then req each
 
-    } else {
+    } else if (loadPath) {
         var files;
         try {
             files = glob.sync(loadPath, { nodir: true, realpath: true });
 
         } catch (err) {
-            b.log.error('bundl.load() requires a string');
+            b.log.error(err);
             return;
         }
 
@@ -36,15 +36,16 @@ function load (loadPath, callback) {
                 callback(files);
             }
 
-            if (args._.length) {
-                runArgsTasks();
-            } else {
-                run('default');
-            }
-
         } else {
             // path is a dir without dir/*
         }
+    }
+
+    // Run tasks passed via command line
+    if (args._.length) {
+        runArgsTasks();
+    } else {
+        run('default');
     }
 }
 
