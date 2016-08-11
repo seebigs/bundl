@@ -1,12 +1,11 @@
 # Bundl
-
 **Develop frontend bundles with ease**
 
-> For options, configurations, and extended features, have a look at: \
-> [API Documentation](docs/api) :: [Extensions](docs/extensions) :: [Examples](docs/examples)
+For options, configurations, and extended features, have a look at:
+> [API Documentation](docs/api) :: [Popular Extensions](docs/extensions) :: [Examples](docs/examples)
 
-## Get Started
 ---
+## Get Started
 
 ### Install
 ```
@@ -67,8 +66,9 @@ Add scripts to your `package.json`
 $ npm run build
 ```
 
-## Build Resources On-Demand!
 ---
+## Build Resources On-Demand!
+
 When you make a change to one source file, you shouldn't have to wait for **every** bundle to rebuild before you can see your changes live in a browser.
 ```js
 var myProjectBundl = bundl(targets, bundlOptions)
@@ -91,8 +91,9 @@ HTTP Requests for a bundled resource will check to see if any of the source file
 
 *NOTE: this is built for rapid development, not as a production-ready webserver*
 
-## Task Management
 ---
+## Task Management
+
 ### Define Tasks
 ```js
 var bundl = require('bundl');
@@ -122,6 +123,7 @@ function doitCallback (result, name) {
 
 bundl.load(); // runs any tasks passed via command line
 ```
+
 ### Run Tasks
 Run using the API
 ```js
@@ -132,8 +134,8 @@ Run from command line
 $ node bundl doit
 ```
 
-## Debugging
 ---
+## Debugging
 Add `.debug()` to your build chain to print which src files will be bundled into which dest files
 ```
 bundl(targets, bundlOptions).debug();
