@@ -5,7 +5,7 @@
 * [Examples](https://github.com/seebigs/bundl/wiki/Examples)
 
 ## What Is Bundl?
-In short it's, **a modern build tool**. Bundl is a flexible way to package your source code plus additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
+In short it's, **a reinvented build tool**. Bundl is a flexible way to package your source code plus additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](https://github.com/seebigs/bundl#build-resources-live-on-demand)).
 
 ## Why Use Bundl?
 * Build resoucres only when requested by your browser (and only if they've changed) ([Example](https://github.com/seebigs/bundl/wiki/Examples))
@@ -76,9 +76,9 @@ $ npm run build
 ```
 
 ---
-## Build Resources On-Demand!
+## Build Resources Live On-Demand!
 
-When you make a change to one source file, you shouldn't have to wait for **every** bundle to rebuild before you can see your changes live in a browser.
+When you make a change to one source file, you shouldn't have to switch back to command line to run a build command before you can see your changes live in a browser. You also shouldn't need to wait for **every** bundle to rebuild if you only want to see one or two of them. Use Bundl's dev server instead...
 ```js
 var myProjectBundl = bundl(targets, bundlOptions)
     .then(dependencies())
