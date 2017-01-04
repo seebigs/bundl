@@ -28,7 +28,7 @@ Make a new file at `~/myProject/bundl.js`
 var bundl = require('bundl');
 
 // Extensions
-var dependencies = require('bundl-dependencies');
+var bundlpack = require('bundl-bundlpack');
 var minify = require('bundl-minify');
 var write = require('bundl-write');
 
@@ -43,7 +43,7 @@ var targets = {
 
 // Setup build-chain
 var myProjectBundl = bundl(targets, bundlOptions)
-    .then(dependencies())
+    .then(bundlpack())
     .thenif(bundl.args.min, minify())
     .then(write());
 
@@ -81,7 +81,7 @@ $ npm run build
 When you make a change to one source file, you shouldn't have to switch back to command line to run a build command before you can see your changes live in a browser. You also shouldn't need to wait for **every** bundle to rebuild if you only want to see one or two of them. Use Bundl's dev server instead...
 ```js
 var myProjectBundl = bundl(targets, bundlOptions)
-    .then(dependencies())
+    .then(bundlpack())
     .then(write());
 
 myProjectBundl.webserver({
@@ -149,7 +149,7 @@ Add `.debug()` to your build chain to print which src files will be bundled into
 ```
 bundl(targets, bundlOptions).debug();
 ```
-Add `--verbose` as a command line option to print more info about what's happeneing
+Add `--verbose` as a command line option to print more info about what's happening
 ```
 $ node bundl --verbose
 ```

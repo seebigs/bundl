@@ -2,28 +2,34 @@
  * Bundl Module Interface
  */
 
+var BundlInstance = require('./lib/instance.js');
 var glob = require('glob');
-var prettyTime = require('pretty-hrtime');
+var Log = require('./lib/log.js');
+var taskman = require('./lib/taskman.js');
+var utils = require('seebigs-utils');
 
-var Bundl = require('./lib/bundl.js');
-var args = require('./lib/args.js');
-
-Bundl.tasks = {};
+var args = utils.args();
+var log = new Log();
 
 
-function load (loadPath, callback) {
-    var b = new Bundl();
+function load (loadPath) {
+    var globOptions = { nodir: true, realpath: true };
 
     if (Array.isArray(loadPath)) {
-        // iterate, validate, then req each
+        loadPath.forEach(function (lp) {
+            load(lp);
+        });
 
     } else if (loadPath) {
         var files;
         try {
-            files = glob.sync(loadPath, { nodir: true, realpath: true });
+            files = glob.sync(loadPath, globOptions);
+            if (!files.length) {
+                files = glob.sync(loadPath + '/*', globOptions);
+            }
 
         } catch (err) {
-            b.log.error(err);
+            log.error(err);
             return;
         }
 
@@ -31,137 +37,24 @@ function load (loadPath, callback) {
             files.forEach(function (file) {
                 require(file);
             });
-
-            if (typeof callback === 'function') {
-                callback(files);
-            }
-
-        } else {
-            // path is a dir without dir/*
         }
     }
 
-    // Run tasks passed via command line
-    if (args._.length) {
-        runArgsTasks();
-    } else {
-        run('default');
-    }
+    taskman.runFromCLI();
 }
-
-function runArgsTasks () {
-    var orderedTasks = args._.slice(0);
-
-    function runNextTask () {
-        var task = orderedTasks.shift();
-        if (orderedTasks.length) {
-            run(task, runNextTask);
-        } else {
-            run(task);
-        }
-    }
-
-    runNextTask();
-}
-
-var runTracker = {
-    count: 0,
-    started: null
-};
-
-function runTask (taskName, done, b) {
-    var task = Bundl.tasks[taskName];
-
-    if (typeof task === 'function') {
-        b.log('Running task ' + taskName);
-        runTracker.count++;
-        var ret = task.call({ name: taskName }, done);
-        if (typeof ret !== 'undefined') {
-            setTimeout(function () {
-                done(ret);
-            }, 0);
-        }
-
-    } else {
-        if (taskName !== 'default') {
-            b.log.error('`' + taskName + '` is not a valid task.');
-        }
-    }
-}
-
-function run (taskName, callback) {
-    if (!runTracker.count) {
-        runTracker.started = process.hrtime();
-    }
-
-    var b = new Bundl();
-
-    var callbackQueue = [];
-    if (callback) {
-        callbackQueue.push(callback);
-    }
-
-    function done (result) {
-        runTracker.count--;
-        if (args.verbose) {
-            b.log('Finished task ' + taskName);
-        }
-
-        var runNext = callbackQueue.shift();
-
-        if (typeof runNext === 'function') {
-            runNext(result, taskName);
-        } else if (typeof runNext === 'string') {
-            runTask(runNext, done, b);
-        }
-
-        if (!runTracker.count && !runNext) {
-            var finished = process.hrtime(runTracker.started);
-            b.log.section('Bundl Finished ' + prettyTime(finished));
-        }
-    }
-
-    // allow `.then` tasks to be queued before kicking off
-    setTimeout(function () {
-        runTask(taskName, done, b);
-    }, 0);
-
-    function then (next) {
-        callbackQueue.push(next);
-
-        return {
-            then: then
-        };
-    }
-
-    return {
-        then: then
-    };
-}
-
-function webserver () {
-    var b = new Bundl();
-    b.webserver.apply(b, arguments);
-}
-
-function task (name, fn) {
-    Bundl.tasks[name] = fn;
-}
-
 
 
 function bundlModule (targets, options, label) {
-    var b = new Bundl(label);
+    var b = new BundlInstance(label);
     b.add.call(b, targets, options);
     return b;
 }
 
-
 bundlModule.args = args;
 bundlModule.load = load;
-bundlModule.run = run;
-bundlModule.webserver = webserver;
-bundlModule.task = task;
-bundlModule.utils = new Bundl().utils;
+bundlModule.run = taskman.run;
+bundlModule.webserver = new BundlInstance().webserver;
+bundlModule.task = taskman.task;
+
 
 module.exports = bundlModule;
