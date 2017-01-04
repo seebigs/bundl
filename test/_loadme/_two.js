@@ -1,0 +1,2 @@
+
+global.loaded += 'two-';

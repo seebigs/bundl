@@ -3,6 +3,9 @@
   "version": "0.5.1",
   "description": "Develop frontend bundles with ease",
   "main": "index.js",
+  "scripts": {
+    "test": "node ./test/automated.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/seebigs/bundl.git"
@@ -25,5 +28,8 @@
     "seebigs-utils": "^1.2.0",
     "send": "^0.14.1",
     "serve-index": "^1.8.0"
+  },
+  "devDependencies": {
+    "feather-test": "^1.0.0"
   }
 }
