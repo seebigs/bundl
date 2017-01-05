@@ -1,6 +1,7 @@
 
 var bundles = require('../../lib/bundles.js');
 var BundlInstance = require('../../lib/instance.js');
+var path = require('path');
 
 describe('bundles', function () {
 
@@ -50,13 +51,72 @@ describe('bundles', function () {
 
     });
 
-    xdescribe('all', function (expect) {
-        // setup a test chain and watch bundl walk it for each resource
-        // verify afterAll, afterEach, extension.each and extension.all
+    describe('all', function (expect, done) {
+        var result = '';
+        var b = new BundlInstance();
+        b.add.call(b, {
+            foo: '../_concatme/_one.js', // relative path
+            bar: path.resolve('./test/_concatme/_two.js') // absolute path
+        });
+        b.then({
+            each: function (contents, r) {
+                result += r.name + 1;
+                return 'each1';
+            }
+        });
+        b.then({
+            each: function (contents, r) {
+                result += r.name + 2;
+                return 'each2';
+            }
+        });
+        b.then({
+            all: function (map) {
+                map.forEach(function (m) {
+                    result += '-' + m.split('/').pop();
+                });
+                return true;
+            }
+        });
+
+        function afterAll () {
+            result += '-allDone';
+            expect(result).toBe('foo1bar1foo2bar2-afterfoo-afterbar-_one.js-_two.js-allDone');
+            done();
+        }
+
+        function afterEach (name) {
+            result += '-after' + name;
+        }
+
+        b.all(afterAll, afterEach);
     });
 
-    xdescribe('one', function (expect) {
-        // setup a test chain and watch bundl walk it, ending with success callback
+    describe('one', function (expect, done) {
+        var result = '';
+        var b = new BundlInstance();
+        b.add.call(b, {
+            foo: '../_concatme/_one.js', // relative path
+            bar: path.resolve('./test/_concatme/_two.js') // absolute path
+        });
+        b.then({
+            each: function (contents, r) {
+                result += r.name + 1;
+                return 'each1';
+            }
+        });
+        b.then({
+            each: function (contents, r) {
+                result += r.name + 2;
+                return 'each2';
+            }
+        });
+
+        b.one('foo', function () {
+            result += '-success';
+            expect(result).toBe('foo1foo2-success');
+            done();
+        });
     });
 
 });
