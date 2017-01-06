@@ -1,6 +1,6 @@
 {
   "name": "bundl",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Develop frontend bundles with ease",
   "main": "index.js",
   "scripts": {
