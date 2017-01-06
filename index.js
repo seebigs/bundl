@@ -44,6 +44,7 @@ function load (loadPath) {
 }
 
 
+// Don't rename this function (see discoverRelativePath)
 function bundlModule (targets, options, label) {
     var b = new BundlInstance(label);
     b.add.call(b, targets, options);
