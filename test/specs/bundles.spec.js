@@ -59,13 +59,13 @@ describe('bundles', function () {
             bar: path.resolve('./test/_concatme/_two.js') // absolute path
         });
         b.then({
-            each: function (contents, r) {
+            one: function (contents, r) {
                 result += r.name + 1;
                 return 'each1';
             }
         });
         b.then({
-            each: function (contents, r) {
+            one: function (contents, r) {
                 result += r.name + 2;
                 return 'each2';
             }
@@ -100,13 +100,13 @@ describe('bundles', function () {
             bar: path.resolve('./test/_concatme/_two.js') // absolute path
         });
         b.then({
-            each: function (contents, r) {
+            one: function (contents, r) {
                 result += r.name + 1;
                 return 'each1';
             }
         });
         b.then({
-            each: function (contents, r) {
+            one: function (contents, r) {
                 result += r.name + 2;
                 return 'each2';
             }
