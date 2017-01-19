@@ -2,7 +2,7 @@
 var utils = require('seebigs-utils');
 var taskman = require('../../lib/taskman.js');
 
-describe('run', function () {
+describe('taskman', function () {
 
     describe('ignores bad inputs', function (expect) {
         taskman.task(true);
@@ -19,11 +19,11 @@ describe('run', function () {
             return true;
         };
 
-        var fn2 = function (done) {
+        var fn2 = function (innerDone) {
             if (oneHappened) {
                 twoHappened = true;
             }
-            done();
+            innerDone();
         };
 
         taskman.task('test.task1', fn1);
@@ -37,8 +37,8 @@ describe('run', function () {
         taskman.run('test.task1').then('test.task2');
 
         setTimeout(function () {
-            expect(oneHappened).toBe(true);
-            expect(twoHappened).toBe(true);
+            expect(oneHappened).toBe(true, 'oneHappened');
+            expect(twoHappened).toBe(true, 'twoHappened');
             done();
         }, 10);
     });
