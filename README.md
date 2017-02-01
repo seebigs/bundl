@@ -1,7 +1,7 @@
 # Bundl
 > Develop frontend bundles with ease
 * [API Documentation](https://github.com/seebigs/bundl/wiki/API-Documentation)
-* [Popular Extensions](https://github.com/seebigs/bundl/wiki/Popular-Extensions)
+* [Popular Plugins](https://github.com/seebigs/bundl/wiki/Popular-Plugins)
 * [Examples](https://github.com/seebigs/bundl/wiki/Examples)
 
 ## What Is Bundl?
@@ -27,7 +27,7 @@ Make a new file at `~/myProject/bundl.js`
 ```js
 var bundl = require('bundl');
 
-// Extensions
+// Plugins
 var pack = require('bundl-pack');
 var minify = require('bundl-minify');
 var write = require('bundl-write');

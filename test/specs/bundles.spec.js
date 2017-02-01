@@ -71,9 +71,14 @@ describe('bundles', function () {
             }
         });
         b.then({
-            all: function (map) {
-                map.forEach(function (m) {
-                    result += '-' + m.split('/').pop();
+            all: function (resources, files) {
+                for (var name in resources) {
+                    if (resources.hasOwnProperty(name)) {
+                        result += '-' + name.split('/').pop();
+                    }
+                }
+                files.forEach(function (f) {
+                    result += '-' + f.split('/').pop();
                 });
                 return true;
             }
@@ -81,7 +86,7 @@ describe('bundles', function () {
 
         function afterAll () {
             result += '-allDone';
-            expect(result).toBe('foo1bar1foo2bar2-afterfoo-afterbar-_one.js-_two.js-allDone');
+            expect(result).toBe('foo1bar1foo2bar2-afterfoo-afterbar-foo-bar-_one.js-_two.js-allDone');
             done();
         }
 
