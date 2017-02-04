@@ -1,6 +1,6 @@
 
 var utils = require('seebigs-utils');
-var taskman = require('../../lib/taskman.js');
+var taskman = require('../../../lib/taskman.js');
 
 describe('taskman', function () {
 

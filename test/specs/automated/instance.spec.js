@@ -1,5 +1,5 @@
 
-var bundl = require('../../index.js');
+var bundl = require('../../../index.js');
 
 describe('instance', function () {
 

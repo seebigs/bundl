@@ -1,6 +1,6 @@
 
-var bundles = require('../../lib/bundles.js');
-var BundlInstance = require('../../lib/instance.js');
+var bundles = require('../../../lib/bundles.js');
+var BundlInstance = require('../../../lib/instance.js');
 var path = require('path');
 
 describe('bundles', function () {
@@ -55,7 +55,7 @@ describe('bundles', function () {
         var result = '';
         var b = new BundlInstance();
         b.add.call(b, {
-            foo: '../_concatme/_one.js', // relative path
+            foo: '../../_concatme/_one.js', // relative path
             bar: path.resolve('./test/_concatme/_two.js') // absolute path
         });
         b.then({
@@ -101,7 +101,7 @@ describe('bundles', function () {
         var result = '';
         var b = new BundlInstance();
         b.add.call(b, {
-            foo: '../_concatme/_one.js', // relative path
+            foo: '../../_concatme/_one.js', // relative path
             bar: path.resolve('./test/_concatme/_two.js') // absolute path
         });
         b.then({

@@ -1,10 +1,10 @@
 
-var resolveTargets = require('../../lib/resolve.js');
+var resolveTargets = require('../../../lib/resolve.js');
 var path = require('path');
 
 describe('resolveTargets', function (expect) {
     var bundl = { mapChanges: function(){} };
-    var options = { targetDir: __dirname + '/../_concatme/' };
+    var options = { outputDir: __dirname + '/../../_concatme/' };
 
     var byString = resolveTargets(bundl, './_one.js', options);
     expect(byString['./_one.js'].src.length).toBe(1);

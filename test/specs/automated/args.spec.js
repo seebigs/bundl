@@ -4,7 +4,7 @@ process.argv.push('--foo');
 process.argv.push('--bar=123');
 process.env.npm_config_argv = '{"original":["ignored","task","--more","--better=stuff"]}';
 
-var bundl = require('../../index.js');
+var bundl = require('../../../index.js');
 
 describe('args', function () {
 

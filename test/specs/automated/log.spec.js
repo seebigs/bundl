@@ -1,5 +1,5 @@
 
-var Log = require('../../lib/log.js');
+var Log = require('../../../lib/log.js');
 
 describe('log', function () {
 
