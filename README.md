@@ -35,7 +35,7 @@ var write = require('bundl-write');
 
 // Configure
 var bundlOptions = {
-    targetDir: 'src',
+    outputDir: 'src',
     clean: true
 };
 var targets = {
