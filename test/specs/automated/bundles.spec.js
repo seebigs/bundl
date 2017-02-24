@@ -1,23 +1,25 @@
 
-var bundles = require('../../../lib/bundles.js');
 var BundlInstance = require('../../../lib/instance.js');
 var path = require('path');
+
+function bundl (targets) {
+    var b = new BundlInstance();
+    return b.add.call(b, targets);
+}
 
 describe('bundles', function () {
 
     describe('add', function () {
 
         describe('.then', function (expect) {
-            var b = new BundlInstance();
-            bundles.add.call(b).then({ abc: 123 });
+            var b = bundl().then({ abc: 123 });
             expect(b.CHAIN).toBe([
                 { abc: 123 }
             ]);
         });
 
         describe('.thenif', function (expect) {
-            var b = new BundlInstance();
-            bundles.add.call(b)
+            var b = bundl()
                 .thenif(true, { one:'yes' }, { one:'no' })
                 .thenif(false, { two:'yes' }, { two:'no' });
             expect(b.CHAIN).toBe([
@@ -27,7 +29,7 @@ describe('bundles', function () {
         });
 
         describe('.debug', function (expect) {
-            var b = new BundlInstance();
+            var b = bundl();
             var logs = [];
             b.log = function (msg, msg2) {
                 logs.push(msg + (msg2 ? ' ' + msg2 : ''));
@@ -41,7 +43,7 @@ describe('bundles', function () {
                     ]
                 }
             };
-            bundles.add.call(b).debug();
+            b.debug();
             expect(logs).toBe([
                 'destination',
                 '   ^-- /abs/src/one',
@@ -53,8 +55,7 @@ describe('bundles', function () {
 
     describe('all', function (expect, done) {
         var result = '';
-        var b = new BundlInstance();
-        b.add.call(b, {
+        var b = bundl({
             foo: '../../_concatme/_one.js', // relative path
             bar: path.resolve('./test/_concatme/_two.js') // absolute path
         });
@@ -99,8 +100,7 @@ describe('bundles', function () {
 
     describe('one', function (expect, done) {
         var result = '';
-        var b = new BundlInstance();
-        b.add.call(b, {
+        var b = bundl({
             foo: '../../_concatme/_one.js', // relative path
             bar: path.resolve('./test/_concatme/_two.js') // absolute path
         });

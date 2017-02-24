@@ -4,5 +4,3 @@ function sample () {
     var foo = req.two;
     return typeof foo;
 }
-
-sample();

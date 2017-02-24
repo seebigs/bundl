@@ -30,6 +30,7 @@
     "serve-index": "^1.8.0"
   },
   "devDependencies": {
-    "feather-test": "^1.0.0"
+    "feather-test": "^1.0.0",
+    "node-as-browser": "^1.1.1"
   }
 }
