@@ -2,7 +2,7 @@ var bundl = require('../../../index.js');
 var fs = require('fs');
 var nodeAsBrowser = require('node-as-browser').init();
 var path = require('path');
-var stackRemap = require('../../__stack_remap.js');     // FIXME: should publish to npm
+var stackRemap = require('stack-remap').install();
 
 var copy = require('../../../../bundl-copy');
 var pack = require('../../../../bundl-pack');
@@ -42,7 +42,8 @@ describe('common plugins', function (expect, done) {
             var expected = fs.readFileSync('test/specs/plugins/expected.js', 'utf8');
             expect(outfile[0]+'\n').toBe(expected, '(wrong bundle contents)');
 
-            stackRemap.init(b.getResources()['sample.js'].sourcemaps);
+            stackRemap.reset();
+            stackRemap.add(b.getResources()['sample.js'].sourcemaps);
             require('../../_out/sample.ext.js');
             expect(window.success).toBe(true, '(bundle failed when executed)');
 

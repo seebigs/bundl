@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "feather-test": "^1.0.0",
-    "node-as-browser": "^1.1.1"
+    "node-as-browser": "^1.1.1",
+    "stack-remap": "^0.1.0"
   }
 }
