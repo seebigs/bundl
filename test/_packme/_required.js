@@ -1,3 +1,4 @@
+// @module
 var another = require('./_another1.js');
 
 module.exports = {

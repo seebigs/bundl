@@ -54,3 +54,25 @@ describe('common plugins', function (expect, done) {
             done();
         });
 });
+
+describe('sourcemaps align correctly', function (expect, done) {
+    var sourcemapCoords = [];
+    var b = bundl({ 'srcmap.js': '../../_packme/_required.js' }, { outputDir: '../../_out', clean: true })
+        .then(pack({ paths: ['./test/_packme'] }))
+        .then({
+            one: function (contents, r) {
+                r.sourcemaps.forEach(function (smap) {
+                    sourcemapCoords.push(smap.generated.line);
+                });
+                return contents;
+            }
+        })
+        .then(write())
+        .all(function () {
+            var outfile = fs.readFileSync('test/_out/srcmap.js', 'utf8').split('\n');
+            sourcemapCoords.forEach(function (modLine) {
+                expect(outfile[modLine - 1]).toBe('// @module');
+            });
+            done();
+        });
+});

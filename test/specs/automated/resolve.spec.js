@@ -21,7 +21,7 @@ var loadMeOne = {
             src: [projectPath + '/_loadme/_one.js'],
             chain: [],
             contents: '',
-            sourcemap: []
+            sourcemaps: []
         }
     }
 };
@@ -39,7 +39,7 @@ var loadMeTwo = {
         ],
         chain: [],
         contents: '',
-        sourcemap: []
+        sourcemaps: []
     }
 };
 
@@ -54,7 +54,7 @@ var loadMeMultiFiles = {
         src: [projectPath + '/_concatme/_one.js'],
         chain: [],
         contents: '',
-        sourcemap: []
+        sourcemaps: []
     },
     '../../_loadme/_two.js': {
         name: '../../_loadme/_two.js',
@@ -66,7 +66,7 @@ var loadMeMultiFiles = {
         src: [projectPath + '/_loadme/_two.js'],
         chain: [],
         contents: '',
-        sourcemap: []
+        sourcemaps: []
     }
 };
 
@@ -83,7 +83,7 @@ var loadMeMultiGlobs = {
         ],
         chain: [],
         contents: '',
-        sourcemap: []
+        sourcemaps: []
     },
     '../../**/*_two*': {
         name: '../../**/*_two*',
@@ -97,12 +97,12 @@ var loadMeMultiGlobs = {
         ],
         chain: [],
         contents: '',
-        sourcemap: []
+        sourcemaps: []
     }
 };
 
 
-describe('targets', function () {
+describe('resolve', function () {
 
     describe('handles undefined', function (expect) {
         expect(bundl().getResources()).toBe({});
