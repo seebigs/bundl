@@ -16,14 +16,15 @@ var write = require('../../../../bundl-write');
 
 var targets = {
     'sample.js': [
-        '../_packme/_sample.js',
-        '../_packme/_init.js',
-        '../_packme/_init.js'
+        '_sample.js',
+        '_init.js',
+        '_init.js'
     ]
 };
 
 var options = {
-    outputDir: 'test/_out',
+    srcDir: '../../_packme',
+    outputDir: '../../_out',
     clean: true
 };
 

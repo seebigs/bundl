@@ -35,11 +35,11 @@ var write = require('bundl-write');
 
 // Configure
 var bundlOptions = {
-    outputDir: 'src',
+    outputDir: 'dist/javascripts',
     clean: true
 };
 var targets = {
-    'my_project_bundle.js': 'entry.js'
+    'my_project_bundle.js': 'src/entry.js'
 };
 
 // Setup build-chain

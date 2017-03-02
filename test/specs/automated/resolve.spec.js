@@ -1,88 +1,108 @@
-
 var bundl = require('../../../index.js');
+var fs = require('fs');
 var path = require('path');
 
 var projectPath = path.resolve('./test');
 
-describe('targets', function () {
+var opt = {
+    srcDir: '../../_loadme'
+};
 
-    var loadMeOne = {
-        '../../_loadme/_one.js': {
-            name: '../../_loadme/_one.js',
-            dest: projectPath + '/_loadme/_one.js',
+var loadMeOne = {
+    contents: fs.readFileSync(projectPath + '/_loadme/_one.js', 'utf8'),
+    r: {
+        '_one.js': {
+            name: '_one.js',
+            dest: projectPath + '/specs/automated/bundled/_one.js',
             options: {
-                outputDir: projectPath + '/specs/automated/'
+                srcDir: projectPath + '/_loadme',
+                outputDir: projectPath + '/specs/automated/bundled'
             },
             src: [projectPath + '/_loadme/_one.js'],
             chain: [],
             contents: '',
             sourcemap: []
         }
-    };
+    }
+};
 
-    var loadMeTwo = {
-        '../../**/*_two*': {
-            name: '../../**/*_two*',
-            dest: projectPath + '/**/*_two*',
-            options: {
-                outputDir: projectPath + '/specs/automated/'
-            },
-            src: [projectPath + '/_concatme/_two.js', projectPath + '/_loadme/_two.js'],
-            chain: [],
-            contents: '',
-            sourcemap: []
-        }
-    };
-
-    var loadMeMultiFiles = {
-        '../../_concatme/_one.js': {
-            name: '../../_concatme/_one.js',
-            dest: projectPath + '/_concatme/_one.js',
-            options: {
-                outputDir: projectPath + '/specs/automated/'
-            },
-            src: [projectPath + '/_concatme/_one.js'],
-            chain: [],
-            contents: '',
-            sourcemap: []
+var loadMeTwo = {
+    '../../**/*_two*': {
+        name: '../../**/*_two*',
+        dest: projectPath + '/specs/**/*_two*',
+        options: {
+            srcDir: projectPath + '/specs/automated/',
+            outputDir: projectPath + '/specs/automated/bundled'
         },
-        '../../_loadme/_two.js': {
-            name: '../../_loadme/_two.js',
-            dest: projectPath + '/_loadme/_two.js',
-            options: {
-                outputDir: projectPath + '/specs/automated/'
-            },
-            src: [projectPath + '/_loadme/_two.js'],
-            chain: [],
-            contents: '',
-            sourcemap: []
-        }
-    };
+        src: [projectPath + '/_concatme/_two.js',
+            projectPath + '/_loadme/_two.js'
+        ],
+        chain: [],
+        contents: '',
+        sourcemap: []
+    }
+};
 
-    var loadMeMultiGlobs = {
-        '../../**/*_one*': {
-            name: '../../**/*_one*',
-            dest: projectPath + '/**/*_one*',
-            options: {
-                outputDir: projectPath + '/specs/automated/'
-            },
-            src: [projectPath + '/_concatme/_one.js', projectPath + '/_loadme/_one.js'],
-            chain: [],
-            contents: '',
-            sourcemap: []
+var loadMeMultiFiles = {
+    '../../_concatme/_one.js': {
+        name: '../../_concatme/_one.js',
+        dest: projectPath + '/specs/_concatme/_one.js',
+        options: {
+            srcDir: projectPath + '/specs/automated/',
+            outputDir: projectPath + '/specs/automated/bundled'
         },
-        '../../**/*_two*': {
-            name: '../../**/*_two*',
-            dest: projectPath + '/**/*_two*',
-            options: {
-                outputDir: projectPath + '/specs/automated/'
-            },
-            src: [projectPath + '/_concatme/_two.js', projectPath + '/_loadme/_two.js'],
-            chain: [],
-            contents: '',
-            sourcemap: []
-        }
-    };
+        src: [projectPath + '/_concatme/_one.js'],
+        chain: [],
+        contents: '',
+        sourcemap: []
+    },
+    '../../_loadme/_two.js': {
+        name: '../../_loadme/_two.js',
+        dest: projectPath + '/specs/_loadme/_two.js',
+        options: {
+            srcDir: projectPath + '/specs/automated/',
+            outputDir: projectPath + '/specs/automated/bundled'
+        },
+        src: [projectPath + '/_loadme/_two.js'],
+        chain: [],
+        contents: '',
+        sourcemap: []
+    }
+};
+
+var loadMeMultiGlobs = {
+    '../../**/*_one*': {
+        name: '../../**/*_one*',
+        dest: projectPath + '/specs/**/*_one*',
+        options: {
+            srcDir: projectPath + '/specs/automated/',
+            outputDir: projectPath + '/specs/automated/bundled'
+        },
+        src: [projectPath + '/_concatme/_one.js',
+            projectPath + '/_loadme/_one.js'
+        ],
+        chain: [],
+        contents: '',
+        sourcemap: []
+    },
+    '../../**/*_two*': {
+        name: '../../**/*_two*',
+        dest: projectPath + '/specs/**/*_two*',
+        options: {
+            srcDir: projectPath + '/specs/automated/',
+            outputDir: projectPath + '/specs/automated/bundled'
+        },
+        src: [projectPath + '/_concatme/_two.js',
+            projectPath + '/_loadme/_two.js'
+        ],
+        chain: [],
+        contents: '',
+        sourcemap: []
+    }
+};
+
+
+describe('targets', function () {
 
     describe('handles undefined', function (expect) {
         expect(bundl().getResources()).toBe({});
@@ -97,12 +117,14 @@ describe('targets', function () {
     });
 
     describe('handles string file', function (expect) {
-        expect(bundl('../../_loadme/_one.js').getResources()).toBe(loadMeOne);
+        var r = bundl('_one.js', opt).getResources();
+        expect(r).toBe(loadMeOne.r);
+        expect(fs.readFileSync(r['_one.js'].src[0], 'utf8')).toBe(loadMeOne.contents);
     });
 
     describe('handles string dir', function (expect) {
-        expect(bundl(path.resolve('./test/_loadme')).getSrcFiles().length).toBe(2);
-        expect(bundl('../../_loadme/').getSrcFiles().length).toBe(2);
+        expect(bundl(path.resolve('./test/_loadme')).getSrcFiles().length).toBe(2, 'absolute');
+        expect(bundl('../../_loadme/').getSrcFiles().length).toBe(2, 'relative');
     });
 
     describe('handles string glob', function (expect) {
@@ -112,15 +134,31 @@ describe('targets', function () {
     });
 
     describe('handles array of one file', function (expect) {
-        expect(bundl(['../../_loadme/_one.js']).getResources()).toBe(loadMeOne);
+        expect(bundl(['_one.js'], opt).getResources()).toBe(loadMeOne.r);
     });
 
     describe('handles array of multiple files', function (expect) {
-        expect(bundl(['../../_concatme/_one.js','../../_loadme/_two.js']).getResources()).toBe(loadMeMultiFiles);
+        expect(bundl(['../../_concatme/_one.js', '../../_loadme/_two.js']).getResources()).toBe(loadMeMultiFiles);
+    });
+
+    describe('handles different types of files', function (expect, done) {
+        var list = [];
+        bundl(['../../_concatme/_one.js', '../../_concatme/_three.html', '../../_concatme/_two.js'])
+            .then({
+                one: function (contents) {
+                    list.push(contents);
+                    return contents;
+                }
+            })
+            .all(function () {
+                expect(list.length).toBe(3);
+                expect(list[1]).toBe('<h1>THREE</h1>\n');
+                done();
+            });
     });
 
     describe('handles array of multiple globs', function (expect) {
-        expect(bundl(['../../**/*_one*','../../**/*_two*']).getResources()).toBe(loadMeMultiGlobs)
+        expect(bundl(['../../**/*_one*', '../../**/*_two*']).getResources()).toBe(loadMeMultiGlobs)
     });
 
     describe('handles object with files', function (expect) {
