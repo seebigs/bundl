@@ -91,8 +91,8 @@ describe('bundles', function () {
             done();
         }
 
-        function afterEach (name) {
-            result += '-after' + name;
+        function afterEach (r) {
+            result += '-after' + r.name;
         }
 
         b.all(afterAll, afterEach);
