@@ -33,7 +33,7 @@ describe('common plugins', function (expect, done) {
         .then(pack({ paths: ['./test/_packme'] }))
         // .then(sourcemap())
         .then(copy({ dest: 'test/_out/dupes', flatten: true, filter: function(e,n){ return n.indexOf('_another')!==-1; } }))
-        .then(replace.direct(pack.requirer.toString(), 'function require(){ window.success=true; }'))
+        .then(replace.direct(pack.requirer.toString(), 'function require(mods,as){ window.success=mods.length; }'))
         .then(wrap({ before: 'window', after: 'window' }))
         .then(rename('.ext.js'))
         .then(minify({ warnings: false }))
@@ -46,7 +46,7 @@ describe('common plugins', function (expect, done) {
             stackRemap.reset();
             stackRemap.add(b.getResources()['sample.js'].sourcemaps);
             require('../../_out/sample.ext.js');
-            expect(window.success).toBe(true, '(bundle failed when executed)');
+            expect(window.success).toBe(4, '(bundle failed when executed)');
 
             var duplicated = fs.readFileSync('test/_out/dupes/_another1.js', 'utf8');
             expect(duplicated).toBe(fs.readFileSync('test/_packme/_another1.js', 'utf8'), '(duplicate plugin failed)');
