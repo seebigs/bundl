@@ -36,7 +36,7 @@ describe('common plugins', function (expect, done) {
         .then(replace.direct(pack.requirer.toString(), 'function require(){ window.success=true; }'))
         .then(wrap({ before: 'window', after: 'window' }))
         .then(rename('.ext.js'))
-        .then(minify())
+        .then(minify({ warnings: false }))
         .then(write())
         .all(function () {
             var outfile = fs.readFileSync('test/_out/sample.ext.js', 'utf8').split('//# sourceMappingURL=');
