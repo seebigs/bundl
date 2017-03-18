@@ -87,7 +87,6 @@ var myProjectBundl = bundl(targets, bundlOptions)
 
 myProjectBundl.webserver({
     port: '5555',
-    rebuild: 'changed',
     watch: './src'
 });
 ```
