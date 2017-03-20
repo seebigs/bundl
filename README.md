@@ -1,18 +1,18 @@
 # Bundl
-> Develop frontend bundles with ease
+> A reinvented build tool
 * [API Documentation](https://github.com/seebigs/bundl/wiki/API-Documentation)
 * [Popular Plugins](https://github.com/seebigs/bundl/wiki/Popular-Plugins)
 * [Examples](https://github.com/seebigs/bundl/wiki/Examples)
 
 ## What Is Bundl?
-In short it's, **a reinvented build tool**. Bundl is a flexible way to package your source code plus additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](https://github.com/seebigs/bundl#build-resources-live-on-demand)).
+Bundl is the best way to manage your frontend codebase. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](https://github.com/seebigs/bundl#build-resources-live-on-demand)). Use it as a task manager or use it to package your source code with additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
 
 ## Why Use Bundl?
-* Build resoucres only when requested by your browser (and only if they've changed) ([Example](https://github.com/seebigs/bundl/wiki/Examples))
-* Easily concat, require, and wrap all of your various resources to generate the bundle you really need ([Example](https://github.com/seebigs/bundl/wiki/Examples))
-* Write next generation ES6 JavaScript today with a transpiler plugin ([Example](https://github.com/seebigs/bundl/wiki/Examples))
-* Run other tasks like linting, file system operations, etc. ([Example](https://github.com/seebigs/bundl/wiki/Examples))
-* Get unit test coverage fast (without the overhead of PhantomJS) ([Example](https://github.com/seebigs/bundl/wiki/Examples))
+* Build resoucres only when requested by your browser (and only if they've changed) ([Example](https://github.com/seebigs/bundl/wiki/Examples#start-a-local-webserver))
+* Easily concat, require, and wrap all of your various resources to generate the bundle you really need ([Example](https://github.com/seebigs/bundl/wiki/Examples#bundles-for-browsers))
+* Run other tasks like linting, file system operations, etc. ([Example](https://github.com/seebigs/bundl/wiki/Examples#server-side-operations))
+* Get unit test coverage fast (without the overhead of PhantomJS) ([Example](https://github.com/seebigs/bundl-jasmine-node))
+* Write next generation ES6 JavaScript today with a transpiler plugin ([Example](https://github.com/seebigs/bundl-pack-babel))
 
 ---
 ## Get Started
@@ -42,14 +42,14 @@ var targets = {
     'my_project_bundle.js': 'src/entry.js'
 };
 
-// Setup build-chain
+// Setup a build pipeline
 var myProjectBundl = bundl(targets, bundlOptions)
     .then(pack())
     .thenif(bundl.args.min, minify())
     .then(write());
 
 // Start the build
-myProjectBundl.all();
+myProjectBundl.go();
 ```
 
 ### Run Your Script
@@ -68,7 +68,7 @@ Add scripts to your `package.json`
     "bundl": "^1.0.0"
   },
   "scripts": {
-    "build": "node bundl"
+    "build": "node bundl.js"
   }
 }
 ```
@@ -77,28 +77,29 @@ $ npm run build
 ```
 
 ---
+## Ways to Use
+* [Live Developing](https://github.com/seebigs/bundl/wiki/Examples#live-developing)
+* [Bundles for Browsers](https://github.com/seebigs/bundl/wiki/Examples#bundles-for-browsers)
+* [Server-Side Operations](https://github.com/seebigs/bundl/wiki/Examples#server-side-operations)
+
+---
 ## Build Resources Live On-Demand!
 
-When you make a change to one source file, you shouldn't have to switch back to command line to run a build command before you can see your changes live in a browser. You also shouldn't need to wait for **every** bundle to rebuild if you only want to see one or two of them. Use Bundl's dev server instead...
+When you make a change to one source file, you shouldn't have to switch back to command line to run a command before you can see your changes live in a browser. You also shouldn't need to wait for **every** bundle to rebuild if you only want to see one or two of them. Use Bundl's dev server instead...
 ```js
+// Setup a build pipeline
 var myProjectBundl = bundl(targets, bundlOptions)
     .then(pack())
     .then(write());
 
-myProjectBundl.webserver({
-    port: '5555',
-    watch: './src'
-});
-```
-Run the build script above to launch your webserver
-```
-$ node bundl
+// Start live dev mode
+myProjectBundl.webserver();
 ```
 Now, open a browser to `http://localhost:5555`
 
-HTTP Requests for a bundled resource will check to see if any of the source files that comprise this bundle have changed since last request. If so, the webserver will rebuild the requested bundle before sending it back to the browser.
+HTTP Requests for a bundled resource will check to see if any of the source files within this bundle have changed since last request. If so, the webserver will rebuild the requested bundle before sending it back to the browser.
 
-*NOTE: this is built for rapid development, not as a production-ready webserver*
+Learn how to [configure your own webserver](https://github.com/seebigs/bundl/wiki/Webserver) on our wiki.
 
 ---
 ## Task Management

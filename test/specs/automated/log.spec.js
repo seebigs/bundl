@@ -8,9 +8,9 @@ describe('log', function () {
         expect(typeof log.error).toBe('function');
     });
 
-    describe('log.warning exists', function (expect) {
+    describe('log.warn exists', function (expect) {
         var log = new Log();
-        expect(typeof log.warning).toBe('function');
+        expect(typeof log.warn).toBe('function');
     });
 
     describe('log.section exists', function (expect) {

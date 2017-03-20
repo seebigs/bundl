@@ -276,7 +276,7 @@ describe('resolve', function () {
                     return contents;
                 }
             })
-            .all(function () {
+            .go(function () {
                 expect(list.length).toBe(3);
                 expect(list[1]).toBe('<h1>THREE</h1>\n');
                 done();

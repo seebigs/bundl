@@ -53,75 +53,81 @@ describe('bundles', function () {
 
     });
 
-    describe('all', function (expect, done) {
-        var result = '';
-        var b = bundl({
-            foo: '../../_concatme/_one.js', // relative path
-            bar: path.resolve('./test/_concatme/_two.js') // absolute path
-        });
-        b.then({
-            one: function (contents, r) {
-                result += r.name + 1;
-                return 'each1';
-            }
-        });
-        b.then({
-            one: function (contents, r) {
-                result += r.name + 2;
-                return 'each2';
-            }
-        });
-        b.then({
-            all: function (resources, files) {
-                for (var name in resources) {
-                    if (resources.hasOwnProperty(name)) {
-                        result += '-' + name.split('/').pop();
-                    }
+    describe('go', function () {
+
+        describe('bundlAll', function (expect, done) {
+            var result = '';
+            var b = bundl({
+                foo: '../../_concatme/_one.js', // relative path
+                bar: path.resolve('./test/_concatme/_two.js') // absolute path
+            });
+            b.then({
+                one: function (contents, r) {
+                    result += r.name + 1;
+                    return 'each1';
                 }
-                files.forEach(function (f) {
-                    result += '-' + f.split('/').pop();
-                });
-                return true;
+            });
+            b.then({
+                one: function (contents, r) {
+                    result += r.name + 2;
+                    return 'each2';
+                }
+            });
+            b.then({
+                all: function (resources, files) {
+                    for (var name in resources) {
+                        if (resources.hasOwnProperty(name)) {
+                            result += '-' + name.split('/').pop();
+                        }
+                    }
+                    files.forEach(function (f) {
+                        result += '-' + f.split('/').pop();
+                    });
+                    return true;
+                }
+            });
+
+            function afterAll () {
+                result += '-allDone';
+                expect(result).toBe('foo1bar1foo2bar2-afterfoo-afterbar-foo-bar-_one.js-_two.js-allDone');
+                done();
             }
-        });
 
-        function afterAll () {
-            result += '-allDone';
-            expect(result).toBe('foo1bar1foo2bar2-afterfoo-afterbar-foo-bar-_one.js-_two.js-allDone');
-            done();
-        }
-
-        function afterEach (r) {
-            result += '-after' + r.name;
-        }
-
-        b.all(afterAll, afterEach);
-    });
-
-    describe('one', function (expect, done) {
-        var result = '';
-        var b = bundl({
-            foo: '../../_concatme/_one.js', // relative path
-            bar: path.resolve('./test/_concatme/_two.js') // absolute path
-        });
-        b.then({
-            one: function (contents, r) {
-                result += r.name + 1;
-                return 'each1';
+            function afterEach (r) {
+                result += '-after' + r.name;
             }
-        });
-        b.then({
-            one: function (contents, r) {
-                result += r.name + 2;
-                return 'each2';
-            }
+
+            b.go(afterAll, afterEach);
         });
 
-        b.one('foo', function () {
-            result += '-success';
-            expect(result).toBe('foo1foo2-success');
-            done();
+        describe('bundlOne', function (expect, done) {
+            var result = '';
+            var b = bundl({
+                foo: '../../_concatme/_one.js', // relative path
+                bar: path.resolve('./test/_concatme/_two.js') // absolute path
+            });
+            b.then({
+                one: function (contents, r) {
+                    result += r.name + 1;
+                    return 'each1';
+                }
+            });
+            b.then({
+                one: function (contents, r) {
+                    result += r.name + 2;
+                    return 'each2';
+                }
+            });
+
+            b.go('foo', function () {
+                result += '-afterAll';
+                expect(result).toBe('foo1foo2-afterAll');
+                done();
+            }, function () {
+                result += '-afterEach';
+            });
         });
+
     });
 
 });

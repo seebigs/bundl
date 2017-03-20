@@ -38,13 +38,13 @@ describe('common plugins', function (expect, done) {
         .then(rename('.ext.js'))
         .then(minify({ warnings: false }))
         .then(write())
-        .all(function () {
+        .go(function (resources) {
             var outfile = fs.readFileSync('test/_out/sample.ext.js', 'utf8').split('//# sourceMappingURL=');
             var expected = fs.readFileSync('test/specs/plugins/expected.js', 'utf8');
             expect(outfile[0]+'\n').toBe(expected, '(wrong bundle contents)');
 
             stackRemap.reset();
-            stackRemap.add(b.getResources()['sample.js'].sourcemaps);
+            stackRemap.add(resources['sample.js'].sourcemaps);
             require('../../_out/sample.ext.js');
             expect(window.success).toBe(4, '(bundle failed when executed)');
 
@@ -68,7 +68,7 @@ describe('sourcemaps align correctly', function (expect, done) {
             }
         })
         .then(write())
-        .all(function () {
+        .go(function () {
             var outfile = fs.readFileSync('test/_out/srcmap.js', 'utf8').split('\n');
             sourcemapCoords.forEach(function (modLine) {
                 expect(outfile[modLine - 1]).toBe('// @module');
