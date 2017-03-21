@@ -1,5 +1,5 @@
 # Bundl
-> A reinvented build tool
+> Become a master of bundles
 * [API Documentation](https://github.com/seebigs/bundl/wiki/API-Documentation)
 * [Popular Plugins](https://github.com/seebigs/bundl/wiki/Popular-Plugins)
 * [Examples](https://github.com/seebigs/bundl/wiki/Examples)

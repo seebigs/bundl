@@ -1,7 +1,7 @@
 {
   "name": "bundl",
-  "version": "0.9.1",
-  "description": "Develop frontend bundles with ease",
+  "version": "0.10.0",
+  "description": "A reinvented build tool",
   "main": "index.js",
   "scripts": {
     "test": "node test/automated"
