@@ -44,11 +44,27 @@ function load (loadPath) {
     taskman.runFromCLI();
 }
 
-function shell (cmd, args, opts) {
+function shell (cmd, cmdArgs, opts) {
     opts = opts || { reject: false };
-    var exec = execa(cmd, args, opts);
+    if (!this.args.quiet) {
+        console.log(cmd + ' ' + cmdArgs.join(' '));
+    }
+
+    var exec = execa(cmd, cmdArgs, opts);
     exec.stdout.pipe(process.stdout);
     exec.stderr.pipe(process.stderr);
+    exec.then(function (result) {
+        if (result.code > 0) {
+            console.log(result.stderr);
+            process.exit(result.code);
+        }
+    });
+    exec.catch(function (err) {
+        console.log();
+        console.log(err.stack || err);
+        process.exit();
+    });
+
     return exec;
 }
 
