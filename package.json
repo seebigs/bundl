@@ -1,6 +1,6 @@
 {
   "name": "bundl",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "A reinvented build tool",
   "main": "index.js",
   "scripts": {
