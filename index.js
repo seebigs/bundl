@@ -6,6 +6,7 @@ var BundlInstance = require('./lib/instance.js');
 var execa = require('execa');
 var glob = require('glob');
 var Log = require('./lib/log.js');
+var nodeWatch = require('node-watch');
 var taskman = require('./lib/taskman.js');
 var utils = require('seebigs-utils');
 
@@ -68,6 +69,16 @@ function shell (cmd, cmdArgs, opts) {
     return exec;
 }
 
+function watch (path, onchange, filter) {
+    var options =  { recursive: true };
+
+    if (typeof filter === 'function') {
+        options.filter = filter;
+    }
+
+    nodeWatch(path, options, onchange);
+}
+
 
 // Don't rename this function (see discoverRelativePath)
 function bundlModule (targets, options, label) {
@@ -81,6 +92,7 @@ bundlModule.load = load;
 bundlModule.run = taskman.run;
 bundlModule.shell = shell;
 bundlModule.task = taskman.task;
+bundlModule.watch = watch;
 bundlModule.webserver = new BundlInstance().webserver;
 
 module.exports = bundlModule;
