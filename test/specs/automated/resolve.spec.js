@@ -13,6 +13,7 @@ var oneLoadMe = {
     r: {
         '_one.js': {
             name: '_one.js',
+            ext: 'js',
             dest: projectPath + '/specs/automated/bundled/_one.js',
             options: {
                 srcDir: projectPath + '/_loadme',
@@ -29,6 +30,7 @@ var oneLoadMe = {
 var twoTwos = {};
 twoTwos[projectPath + '/_concatme/_two.js'] = {
     name: projectPath + '/_concatme/_two.js',
+    ext: 'js',
     dest: projectPath + '/specs/automated/bundled' + projectPath + '/_concatme/_two.js',
     options: {
         srcDir: projectPath + '/specs/automated/',
@@ -41,6 +43,7 @@ twoTwos[projectPath + '/_concatme/_two.js'] = {
 };
 twoTwos[projectPath + '/_loadme/_two.js'] = {
     name: projectPath + '/_loadme/_two.js',
+    ext: 'js',
     dest: projectPath + '/specs/automated/bundled' + projectPath + '/_loadme/_two.js',
     options: {
         srcDir: projectPath + '/specs/automated/',
@@ -55,6 +58,7 @@ twoTwos[projectPath + '/_loadme/_two.js'] = {
 var concatMeOneTwo = {
     '_concatme/_one.js': {
         name: '_concatme/_one.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_concatme/_one.js',
         options: {
             srcDir: projectPath,
@@ -67,6 +71,7 @@ var concatMeOneTwo = {
     },
     '_concatme/_two.js': {
         name: '_concatme/_two.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_concatme/_two.js',
         options: {
             srcDir: projectPath,
@@ -82,6 +87,7 @@ var concatMeOneTwo = {
 var loadMeOneTwo = {};
 loadMeOneTwo[projectPath + '/_loadme/_one.js'] = {
     name: projectPath + '/_loadme/_one.js',
+    ext: 'js',
     dest: projectPath + '/specs/automated/bundled' + projectPath + '/_loadme/_one.js',
     options: {
         srcDir: projectPath + '/specs/automated/',
@@ -94,6 +100,7 @@ loadMeOneTwo[projectPath + '/_loadme/_one.js'] = {
 };
 loadMeOneTwo[projectPath + '/_loadme/_two.js'] = {
     name: projectPath + '/_loadme/_two.js',
+    ext: 'js',
     dest: projectPath + '/specs/automated/bundled' + projectPath + '/_loadme/_two.js',
     options: {
         srcDir: projectPath + '/specs/automated/',
@@ -108,6 +115,7 @@ loadMeOneTwo[projectPath + '/_loadme/_two.js'] = {
 var oneTwoAcross = {
     '_concatme/_one.js': {
         name: '_concatme/_one.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_concatme/_one.js',
         options: {
             srcDir: projectPath + '',
@@ -120,6 +128,7 @@ var oneTwoAcross = {
     },
     '_loadme/_two.js': {
         name: '_loadme/_two.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_loadme/_two.js',
         options: {
             srcDir: projectPath + '',
@@ -135,6 +144,7 @@ var oneTwoAcross = {
 var oneByOneTwoByTwo = {
     '_concatme/_one.js': {
         name: '_concatme/_one.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_concatme/_one.js',
         options: {
             srcDir: projectPath + '',
@@ -147,6 +157,7 @@ var oneByOneTwoByTwo = {
     },
     '_loadme/_one.js': {
         name: '_loadme/_one.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_loadme/_one.js',
         options: {
             srcDir: projectPath + '',
@@ -159,6 +170,7 @@ var oneByOneTwoByTwo = {
     },
     '_concatme/_two.js': {
         name: '_concatme/_two.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_concatme/_two.js',
         options: {
             srcDir: projectPath + '',
@@ -171,6 +183,7 @@ var oneByOneTwoByTwo = {
     },
     '_loadme/_two.js': {
         name: '_loadme/_two.js',
+        ext: 'js',
         dest: projectPath + '/specs/automated/bundled/_loadme/_two.js',
         options: {
             srcDir: projectPath + '',
