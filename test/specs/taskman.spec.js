@@ -1,13 +1,12 @@
 
-var utils = require('seebigs-utils');
-var bundl = require('../../../index.js');
+var Bundl = require('../../index.js');
 
 describe('taskman', function () {
 
     describe('task ignores bad inputs', function (expect) {
-        bundl.task(true);
-        bundl.task('test.task0', 123);
-        expect(bundl.task.list()).toBe({});
+        Bundl.setTask(true);
+        Bundl.setTask('test.task0', 123);
+        expect(Bundl.listTasks()).toBe({});
     });
 
     describe('binds and runs tasks, ignoring bad inputs', function (expect, done) {
@@ -47,18 +46,18 @@ describe('taskman', function () {
             callback();
         }
 
-        bundl.task('test.task1', fn1);
-        bundl.task('test.task2', fn2);
-        bundl.task('test.task3', fn3);
+        Bundl.setTask('test.task1', fn1);
+        Bundl.setTask('test.task2', fn2);
+        Bundl.setTask('test.task3', fn3);
 
-        expect(bundl.task.list()).toBe({
+        expect(Bundl.listTasks()).toBe({
             'test.task1': fn1,
             'test.task2': fn2,
             'test.task3': fn3
         });
 
-        bundl
-            .run('test.task1', { foo: 123 })
+        Bundl
+            .runTask('test.task1', { foo: 123 })
             .then('test.task2', { foo: 456 })
             .then()
             .then('test.task3')

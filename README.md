@@ -45,7 +45,7 @@ var targets = {
 // Setup a build pipeline
 var myProjectBundl = bundl(targets, bundlOptions)
     .then(pack())
-    .thenif(bundl.args.min, minify())
+    .thenif(bundl.cliArgs.min, minify())
     .then(write());
 
 // Start the build
@@ -108,12 +108,12 @@ Learn how to [configure your own webserver](https://github.com/seebigs/bundl/wik
 ```js
 var bundl = require('bundl');
 
-bundl.task('doit:sync', function () {
+bundl.setTask('doit:sync', function () {
     console.log('  My name is: ' + this.name);
     return 123;
 });
 
-bundl.task('doit:async', function (done) {
+bundl.setTask('doit:async', function (done) {
     console.log('  My name is: ' + this.name);
     setTimeout(function(){
         if (typeof done === 'function') {
@@ -122,9 +122,9 @@ bundl.task('doit:async', function (done) {
     }, 100);
 });
 
-bundl.task('doit', function () {
-    bundl.run('doit:async', doitCallback);
-    bundl.run('doit:sync', doitCallback);
+bundl.setTask('doit', function () {
+    bundl.runTask('doit:async', doitCallback);
+    bundl.runTask('doit:sync', doitCallback);
 });
 
 function doitCallback (result, name) {
@@ -137,7 +137,7 @@ bundl.load(); // runs any tasks passed via command line
 ### Run Tasks
 Run using the API
 ```js
-bundl.run('doit');
+bundl.runTask('doit');
 ```
 Run from command line
 ```

@@ -1,0 +1,61 @@
+======
+======
+
+Pipeline:
+
+bundl({...})
+    // STAGE: src
+    .src(copy())
+    .src(eslint())
+    .add({...})
+        // STAGE: stringy
+        .then(function (r) { r.contents.getString() })
+        .then(replaceString())
+        .then(wrapString())
+    .parse({ processors: { less: parseLess() } })
+        // STAGE: parsed
+        .then(function (r) { r.contents.getParsed() })
+        .then(pack())
+        .then(replace())
+        .then(wrap())
+    .generate({ processors: { js: babelGenerator() } }) // custom generators could adapt AST format before stringifying
+    .minify({ processors: { js: babelGenerator() } }) // same as generate but compressed
+        // STAGE: stringy
+        .then(function (r) { r.contents })
+        .then(replaceString())
+        .then(wrapString())
+    .write() // alias for .then(write()) - (still in external repo)
+    .rename({ remap: {...} }) // alias for .then(rename()) - (still in external repo)
+    .write()
+    .go(done);
+
+======
+new setup is
+    - .src -> stage:src
+    - .then -> stage:stringy-pre
+    - .parse -> parse config (change stage = parsed) - behaves like .then(parse())
+    - .then -> stage:parsed
+    - .generate -> generate config (change stage = stringy-post) - behaves like .then(generate())
+    - .minify -> same as generate but compressed
+    - .then -> stage:stringy-post
+    - .write() behaves like .then(write())
+    - .rename() behaves like .then(rename())
+new exec flow is
+    - walk CHAIN_SRC for each .src() step
+    - walk chain for each resource (async)
+        - stringy
+        - parse
+        - parsed
+        - generate/minify
+        - stringy
+    - do callback
+
+
+======
+======
+
+bundl.log is kinda messed up
+    it's a different instance in random places throughout code
+
+bundl GUI
+    show staus of each resource, its progress along the chain, durations, etc.

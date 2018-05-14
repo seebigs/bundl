@@ -7,9 +7,9 @@ var asyncDelay = 200;
 /* SYNC RETURN */
 
 var firstSyncReturn = {
-    one: function (contents, r) {
+    one: function (r) {
         console.log('firstSyncReturn', r.name);
-        return contents;
+        return r;
     },
     all: function (resources, srcFiles, done) {
         console.log('ALL-firstSyncReturn');
@@ -18,9 +18,9 @@ var firstSyncReturn = {
 };
 
 var secondSyncReturn = {
-    one: function (contents, r) {
+    one: function (r) {
         console.log('secondSyncReturn', r.name);
-        return contents;
+        return r;
     },
     all: function (resources, srcFiles, done) {
         console.log('ALL-secondSyncReturn');
@@ -29,9 +29,9 @@ var secondSyncReturn = {
 };
 
 var thirdSyncReturn = {
-    one: function (contents, r) {
+    one: function (r) {
         console.log('thirdSyncReturn', r.name);
-        return contents;
+        return r;
     },
     all: function (resources, srcFiles, done) {
         console.log('ALL-thirdSyncReturn');
@@ -42,7 +42,7 @@ var thirdSyncReturn = {
 /* SYNC DONE */
 
 var firstSyncDone = {
-    one: function (contents, r, done) {
+    one: function (r, done) {
         console.log('firstSyncDone', r.name);
         done();
     },
@@ -53,9 +53,9 @@ var firstSyncDone = {
 };
 
 var secondSyncDone = {
-    one: function (contents, r, done) {
+    one: function (r, done) {
         console.log('secondSyncDone', r.name);
-        done(contents);
+        done(r);
     },
     all: function (resources, srcFiles, done) {
         console.log('ALL-secondSyncDone');
@@ -64,7 +64,7 @@ var secondSyncDone = {
 };
 
 var thirdSyncDone = {
-    one: function (contents, r, done) {
+    one: function (r, done) {
         console.log('thirdSyncDone', r.name);
         done();
     },
@@ -77,7 +77,7 @@ var thirdSyncDone = {
 /* ASYNC DONE */
 
 var firstAsync = {
-    one: function (contents, r, done) {
+    one: function (r, done) {
         setTimeout(function () {
             console.log('firstAsync', r.name);
             done();
@@ -92,10 +92,10 @@ var firstAsync = {
 };
 
 var secondAsync = {
-    one: function (contents, r, done) {
+    one: function (r, done) {
         setTimeout(function () {
             console.log('secondAsync', r.name);
-            done(contents);
+            done(r);
         }, asyncDelay);
     },
     all: function (resources, srcFiles, done) {
@@ -107,7 +107,7 @@ var secondAsync = {
 };
 
 var thirdAsync = {
-    one: function (contents, r, done) {
+    one: function (r, done) {
         setTimeout(function () {
             console.log('thirdAsync', r.name);
             done();
@@ -122,7 +122,7 @@ var thirdAsync = {
 };
 
 
-bundl.task('flow', function (done) {
+bundl.setTask('flow', function (done) {
     console.log();
     bundl(targets, options)
         .then(firstSyncReturn)
@@ -148,4 +148,4 @@ bundl.task('flow', function (done) {
         });
 });
 
-bundl.run('flow');
+bundl.runTask('flow');
