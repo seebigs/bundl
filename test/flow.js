@@ -1,4 +1,4 @@
-var bundl = require('../index.js');
+var Bundl = require('../index.js');
 
 var targets = './_concatme';
 var options = {};
@@ -7,136 +7,103 @@ var asyncDelay = 200;
 /* SYNC RETURN */
 
 var firstSyncReturn = {
-    one: function (r) {
+    name: 'firstSyncReturn',
+    exec: function (r) {
         console.log('firstSyncReturn', r.name);
         return r;
     },
-    all: function (resources, srcFiles, done) {
-        console.log('ALL-firstSyncReturn');
-        done();
-    }
 };
 
 var secondSyncReturn = {
-    one: function (r) {
+    name: 'secondSyncReturn',
+    exec: function (r) {
         console.log('secondSyncReturn', r.name);
         return r;
     },
-    all: function (resources, srcFiles, done) {
-        console.log('ALL-secondSyncReturn');
-        done();
-    }
 };
 
 var thirdSyncReturn = {
-    one: function (r) {
+    name: 'thirdSyncReturn',
+    exec: function (r) {
         console.log('thirdSyncReturn', r.name);
         return r;
     },
-    all: function (resources, srcFiles, done) {
-        console.log('ALL-thirdSyncReturn');
-        done();
-    }
 };
 
 /* SYNC DONE */
 
 var firstSyncDone = {
-    one: function (r, done) {
+    name: 'firstSyncDone',
+    exec: function (r, done) {
         console.log('firstSyncDone', r.name);
         done();
     },
-    all: function (resources, srcFiles, done) {
-        console.log('ALL-firstSyncDone');
-        done();
-    }
 };
 
 var secondSyncDone = {
-    one: function (r, done) {
+    name: 'secondSyncDone',
+    exec: function (r, done) {
         console.log('secondSyncDone', r.name);
         done(r);
     },
-    all: function (resources, srcFiles, done) {
-        console.log('ALL-secondSyncDone');
-        done();
-    }
 };
 
 var thirdSyncDone = {
-    one: function (r, done) {
+    name: 'thirdSyncDone',
+    exec: function (r, done) {
         console.log('thirdSyncDone', r.name);
         done();
     },
-    all: function (resources, srcFiles, done) {
-        console.log('ALL-thirdSyncDone');
-        done();
-    }
 };
 
 /* ASYNC DONE */
 
 var firstAsync = {
-    one: function (r, done) {
+    name: 'firstAsync',
+    exec: function (r, done) {
         setTimeout(function () {
             console.log('firstAsync', r.name);
             done();
         }, asyncDelay);
     },
-    all: function (resources, srcFiles, done) {
-        setTimeout(function () {
-            console.log('ALL-firstAsync');
-            done();
-        }, asyncDelay);
-    }
 };
 
 var secondAsync = {
-    one: function (r, done) {
+    name: 'secondAsync',
+    exec: function (r, done) {
         setTimeout(function () {
             console.log('secondAsync', r.name);
             done(r);
         }, asyncDelay);
     },
-    all: function (resources, srcFiles, done) {
-        setTimeout(function () {
-            console.log('ALL-secondAsync');
-            done();
-        }, asyncDelay);
-    }
 };
 
 var thirdAsync = {
-    one: function (r, done) {
+    name: 'thirdAsync',
+    exec: function (r, done) {
         setTimeout(function () {
             console.log('thirdAsync', r.name);
             done();
         }, asyncDelay);
     },
-    all: function (resources, srcFiles, done) {
-        setTimeout(function () {
-            console.log('ALL-thirdAsync');
-            done();
-        }, asyncDelay);
-    }
 };
 
 
-bundl.setTask('flow', function (done) {
+Bundl.setTask('flow', function (done) {
     console.log();
-    bundl(targets, options)
+    new Bundl(targets, options)
         .then(firstSyncReturn)
         .then(secondSyncReturn)
         .then(thirdSyncReturn)
         .go(function () {
-            console.log('\n');
-            bundl(targets, options)
+            console.log();
+            new Bundl(targets, options)
                 .then(firstSyncDone)
                 .then(secondSyncDone)
                 .then(thirdSyncDone)
                 .go(function () {
-                    console.log('\n');
-                    bundl(targets, options)
+                    console.log();
+                    new Bundl(targets, options)
                         .then(firstAsync)
                         .then(secondAsync)
                         .then(thirdAsync)
@@ -148,4 +115,4 @@ bundl.setTask('flow', function (done) {
         });
 });
 
-bundl.runTask('flow');
+Bundl.runTask('flow');

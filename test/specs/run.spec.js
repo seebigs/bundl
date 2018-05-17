@@ -59,24 +59,19 @@ describe('run', function () {
         }
     });
 
-    function afterEach (r) {
-        result.push(r.name + 'AE');
-    }
-
     describe('bundlOne', function (expect, oneDone) {
         result = [];
-        b.go('foo', function () {
-            result.push('AA');
+        b.go('foo', function (r) {
+            result.push(r.name + 'CB');
             expect(result).toBe([
                 'fooP1',
                 'fooP2',
                 'fooP3',
-                'fooAE',
-                'AA',
+                'fooCB',
             ]);
             testBundlAll();
             oneDone();
-        }, afterEach);
+        });
     });
 
     function testBundlAll() {
@@ -102,7 +97,9 @@ describe('run', function () {
                     'AA',
                 ]);
                 allDone();
-            }, afterEach);
+            }, function (r) {
+                result.push(r.name + 'AE');
+            });
         });
     }
 

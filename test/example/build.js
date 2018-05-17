@@ -1,11 +1,11 @@
 var Bundl = require('../../index.js');
 
-var copy = require('../../../bundl-copy'); // FIXME
-var eslint = require('../../../bundl-eslint');
-var minify = require('../../../bundl-minify');
-var pack = require('../../../bundl-pack');
-var replace = require('../../../bundl-replace');
-var wrap = require('../../../bundl-wrap');
+var copy = require('bundl-copy');
+var eslint = require('bundl-eslint');
+var minify = require('bundl-minify');
+var pack = require('bundl-pack');
+var replace = require('bundl-replace');
+var wrap = require('bundl-wrap');
 
 var targets = {
     'sample.js': [
