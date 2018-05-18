@@ -1,98 +1,43 @@
 /**
- * Bundl Module Interface
+ * Bundl
  */
 
-var BundlInstance = require('./lib/instance.js');
-var execa = require('execa');
-var glob = require('glob');
-var Log = require('./lib/log.js');
-var nodeWatch = require('node-watch');
-var taskman = require('./lib/taskman.js');
-var utils = require('seebigs-utils');
+var bundlClassMethods = require('./lib/bundl_class.js');
+var bundlInstanceMethods = require('./lib/bundl_instance.js');
+var discoverRelativePath = require('discover-source-path');
+var each = require('seebigs-each');
+var path = require('path');
 
-var args = utils.args();
-var log = new Log();
+class Bundl {
+    constructor(targets, options) {
+        var _this = this;
+        var relativeTo = discoverRelativePath(3) + '/'; // careful when moving!
+        var opts = Object.assign({}, options);
+        opts.srcDir = opts.srcDir ? path.resolve(relativeTo, opts.srcDir) : relativeTo;
+        opts.outputDir = opts.outputDir ? path.resolve(relativeTo, opts.outputDir) : relativeTo + 'bundled';
+        opts.watch = opts.watch ? path.resolve(relativeTo, opts.watch) : void 0;
 
+        _this.options = opts;
+        _this.isBundl = true;
+        _this._ = {
+            CHAIN_STAGE: 'stringy',
+            CHAIN_SRC: [],
+            CHANGEMAP: {},
+            RESOURCES: {},
+            ACTIVE_BUNDLE_COUNT: 0,
+            LINES: 2, // allow for "preface"
+        };
 
-function load (loadPath) {
-    var globOptions = { nodir: true, realpath: true };
-
-    if (Array.isArray(loadPath)) {
-        loadPath.forEach(function (lp) {
-            load(lp);
+        each(bundlInstanceMethods, function (method, name) {
+            _this[name] = method;
         });
 
-    } else if (loadPath) {
-        var files;
-        try {
-            files = glob.sync(loadPath, globOptions);
-            if (!files.length) {
-                files = glob.sync(loadPath + '/*', globOptions);
-            }
-
-        } catch (err) {
-            log.error(err);
-            return;
-        }
-
-        if (files.length) {
-            files.forEach(function (file) {
-                require(file);
-            });
-        }
+        _this.add.call(_this, targets);
     }
-
-    taskman.runFromCLI();
 }
 
-function shell (cmd, cmdArgs, opts) {
-    opts = opts || { reject: false };
-    if (!this.args.quiet) {
-        console.log(cmd + ' ' + cmdArgs.join(' '));
-    }
+each(bundlClassMethods, function (method, name) {
+    Bundl[name] = method;
+});
 
-    var exec = execa(cmd, cmdArgs, opts);
-    exec.stdout.pipe(process.stdout);
-    exec.stderr.pipe(process.stderr);
-    exec.then(function (result) {
-        if (result.code > 0) {
-            console.log(result.stderr);
-            process.exit(result.code);
-        }
-    });
-    exec.catch(function (err) {
-        console.log();
-        console.log(err.stack || err);
-        process.exit();
-    });
-
-    return exec;
-}
-
-function watch (path, onchange, filter) {
-    var options =  { recursive: true };
-
-    if (typeof filter === 'function') {
-        options.filter = filter;
-    }
-
-    nodeWatch(path, options, onchange);
-}
-
-
-// Don't rename this function (see discoverRelativePath)
-function bundlModule (targets, options, label) {
-    var b = new BundlInstance(label);
-    b.add.call(b, targets, options);
-    return b;
-}
-
-bundlModule.args = args;
-bundlModule.load = load;
-bundlModule.run = taskman.run;
-bundlModule.shell = shell;
-bundlModule.task = taskman.task;
-bundlModule.watch = watch;
-bundlModule.webserver = new BundlInstance().webserver;
-
-module.exports = bundlModule;
+module.exports = Bundl;

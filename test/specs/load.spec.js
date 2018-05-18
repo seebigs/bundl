@@ -1,8 +1,8 @@
 
-var bundl = require('../../../index.js');
+var Bundl = require('../../index.js');
 var path = require('path');
 
-var loadPath = path.resolve(__dirname + '/../../_loadme');
+var loadPath = path.resolve(__dirname + '/../_loadme');
 
 function clearModuleCache () {
     delete require.cache[loadPath + '/_one.js'];
@@ -15,11 +15,11 @@ describe('load', function () {
         global.loaded = '';
 
         clearModuleCache();
-        bundl.load(loadPath);
+        Bundl.load(loadPath);
         clearModuleCache();
-        bundl.load(loadPath + '/*');
+        Bundl.load(loadPath + '/*');
         clearModuleCache();
-        bundl.load(loadPath + '/_one.js');
+        Bundl.load(loadPath + '/_one.js');
 
         expect(global.loaded).toBe('one-two-one-two-one-');
     });
@@ -28,7 +28,7 @@ describe('load', function () {
         global.loaded = '';
 
         clearModuleCache();
-        bundl.load([
+        Bundl.load([
             loadPath + '/_one.js',
             loadPath + '/_two.js'
         ]);

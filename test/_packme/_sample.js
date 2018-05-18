@@ -1,3 +1,4 @@
+var css = require('./_required.css');
 var req = require('./_required.js');
 
 function sample () {

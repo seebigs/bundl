@@ -5,13 +5,12 @@
 * [Examples](https://github.com/seebigs/bundl/wiki/Examples)
 
 ## What Is Bundl?
-Bundl is the best way to manage your frontend codebase. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](https://github.com/seebigs/bundl#build-resources-live-on-demand)). Use it as a task manager or use it to package your source code with additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
+Bundl builds and packages files for your frontend codebase. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](https://github.com/seebigs/bundl#build-resources-live-on-demand)). Use it as a task manager or use it to package your source code with additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
 
 ## Why Use Bundl?
 * Build resoucres only when requested by your browser (and only if they've changed) ([Example](https://github.com/seebigs/bundl/wiki/Examples#start-a-local-webserver))
 * Easily concat, require, and wrap all of your various resources to generate the bundle you really need ([Example](https://github.com/seebigs/bundl/wiki/Examples#bundles-for-browsers))
 * Run other tasks like linting, file system operations, etc. ([Example](https://github.com/seebigs/bundl/wiki/Examples#server-side-operations))
-* Get unit test coverage fast (without the overhead of PhantomJS) ([Example](https://github.com/seebigs/bundl-jasmine-node))
 * Write next generation ES6 JavaScript today with a transpiler plugin ([Example](https://github.com/seebigs/bundl-pack-babel))
 
 ---
@@ -26,7 +25,7 @@ $ npm install bundl --save-dev
 ### Create Your Build Script
 Make a new file at `~/myProject/bundl.js`
 ```js
-var bundl = require('bundl');
+var Bundl = require('bundl');
 
 // Plugins
 var pack = require('bundl-pack');
@@ -43,9 +42,9 @@ var targets = {
 };
 
 // Setup a build pipeline
-var myProjectBundl = bundl(targets, bundlOptions)
+var myProjectBundl = new Bundl(targets, bundlOptions)
     .then(pack())
-    .thenif(bundl.args.min, minify())
+    .thenif(Bundl.cliArgs.min, minify())
     .then(write());
 
 // Start the build
@@ -85,10 +84,10 @@ $ npm run build
 ---
 ## Build Resources Live On-Demand!
 
-When you make a change to one source file, you shouldn't have to switch back to command line to run a command before you can see your changes live in a browser. You also shouldn't need to wait for **every** bundle to rebuild if you only want to see one or two of them. Use Bundl's dev server instead...
+When you make a change to one source file, you shouldn't have to switch back to command line to run a task before you can see your changes live in a browser. You also shouldn't need to wait for **every** bundle to rebuild if you only want to see one or two of them. Use Bundl's dev server instead...
 ```js
 // Setup a build pipeline
-var myProjectBundl = bundl(targets, bundlOptions)
+var myProjectBundl = new Bundl(targets, bundlOptions)
     .then(pack())
     .then(write());
 
@@ -106,14 +105,14 @@ Learn how to [configure your own webserver](https://github.com/seebigs/bundl/wik
 
 ### Define Tasks
 ```js
-var bundl = require('bundl');
+var Bundl = require('bundl');
 
-bundl.task('doit:sync', function () {
+Bundl.setTask('doit:sync', function () {
     console.log('  My name is: ' + this.name);
     return 123;
 });
 
-bundl.task('doit:async', function (done) {
+Bundl.setTask('doit:async', function (done) {
     console.log('  My name is: ' + this.name);
     setTimeout(function(){
         if (typeof done === 'function') {
@@ -122,22 +121,22 @@ bundl.task('doit:async', function (done) {
     }, 100);
 });
 
-bundl.task('doit', function () {
-    bundl.run('doit:async', doitCallback);
-    bundl.run('doit:sync', doitCallback);
+Bundl.setTask('doit', function () {
+    Bundl.runTask('doit:async', doitCallback);
+    Bundl.runTask('doit:sync', doitCallback);
 });
 
 function doitCallback (result, name) {
     console.log(name + ' = ' + result);
 }
 
-bundl.load(); // runs any tasks passed via command line
+Bundl.load(); // runs any tasks passed via command line
 ```
 
 ### Run Tasks
 Run using the API
 ```js
-bundl.run('doit');
+Bundl.runTask('doit');
 ```
 Run from command line
 ```
@@ -148,7 +147,7 @@ $ node bundl doit
 ## Debugging
 Add `.debug()` to your build chain to print which src files will be bundled into which dest files
 ```
-bundl(targets, bundlOptions).debug();
+new Bundl(targets, bundlOptions).debug();
 ```
 Add `--verbose` as a command line option to print more info about what's happening
 ```

@@ -4,7 +4,8 @@
   "description": "A reinvented build tool",
   "main": "index.js",
   "scripts": {
-    "test": "node test/automated"
+    "test": "npm run lint && node test",
+    "lint": "eslint ./lib ./index"
   },
   "repository": {
     "type": "git",
@@ -16,23 +17,32 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^1.1.3",
-    "deep-extend": "^0.4.1",
-    "del": "^2.2.1",
-    "execa": "^0.6.0",
+    "as-table": "^1.0.32",
+    "bundl-rename": "^2.0.0",
+    "bundl-write": "^2.0.0",
+    "chalk": "^2.4.1",
+    "del": "^3.0.0",
+    "discover-source-path": "^1.0.0",
+    "execa": "^0.10.0",
     "express": "^4.14.0",
-    "glob": "^7.0.5",
+    "glob": "^7.1.2",
     "morgan": "^1.7.0",
     "node-watch": "^0.5.2",
     "parseurl": "^1.3.1",
-    "pretty-hrtime": "^1.0.2",
-    "seebigs-utils": "^1.4.0",
-    "send": "^0.15.1",
+    "pretty-ms": "^3.1.0",
+    "seebigs-args": "^1.0.0",
+    "seebigs-each": "^1.1.0",
+    "seebigs-extend": "^2.0.1",
     "serve-index": "^1.8.0"
   },
   "devDependencies": {
-    "feather-test": "^1.3.0",
-    "node-as-browser": "^1.1.1",
-    "stack-remap": "^0.1.0"
+    "bundl-copy": "^1.0.0",
+    "bundl-eslint": "^2.0.0",
+    "bundl-minify": "^2.0.0",
+    "bundl-pack": "^1.0.0",
+    "bundl-replace": "^2.0.0",
+    "bundl-wrap": "^2.0.0",
+    "eslint": "^4.19.1",
+    "feather-test": "^4.0.0"
   }
 }
