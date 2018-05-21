@@ -130,17 +130,17 @@ function doitCallback (result, name) {
     console.log(name + ' = ' + result);
 }
 
-Bundl.load(); // runs any tasks passed via command line
+Bundl.load('./myTasks/*'); // runs any tasks passed via command line that are defined in the `myTasks` directory
 ```
 
 ### Run Tasks
 Run using the API
 ```js
-Bundl.runTask('doit');
+Bundl.runTask('doFirst').then('doSecond');
 ```
 Run from command line
 ```
-$ node bundl doit
+$ node bundl doFirst doSecond
 ```
 
 ---
