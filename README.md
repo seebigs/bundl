@@ -1,16 +1,16 @@
 # Bundl
 > Become a master of bundles
-* [API Documentation](https://github.com/seebigs/bundl/wiki/API-Documentation)
-* [Popular Plugins](https://github.com/seebigs/bundl/wiki/Popular-Plugins)
-* [Examples](https://github.com/seebigs/bundl/wiki/Examples)
+* [API Documentation](docs/API.md)
+* [Popular Plugins](docs/PLUGINS.md)
+* [Examples](docs/EXAMPLES.md)
 
 ## What Is Bundl?
-Bundl builds and packages files for your frontend codebase. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](https://github.com/seebigs/bundl#build-resources-live-on-demand)). Use it as a task manager or use it to package your source code with additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
+Bundl builds and packages files for your frontend codebase. It switches the paradigm of when resources are built vs when they are needed ([Bundl On-Demand](docs/BUILD_ON_DEMAND.md)). Use it as a task manager or use it to package your source code with additional resources (like styles and images) into a JavaScript bundle that can be served to your web browser.
 
 ## Why Use Bundl?
-* Build resoucres only when requested by your browser (and only if they've changed) ([Example](https://github.com/seebigs/bundl/wiki/Examples#start-a-local-webserver))
-* Easily concat, require, and wrap all of your various resources to generate the bundle you really need ([Example](https://github.com/seebigs/bundl/wiki/Examples#bundles-for-browsers))
-* Run other tasks like linting, file system operations, etc. ([Example](https://github.com/seebigs/bundl/wiki/Examples#server-side-operations))
+* Build resoucres only when requested by your browser (and only if they've changed) ([Example](docs/BUILD_ON_DEMAND.md))
+* Easily concat, require, and wrap all of your various resources to generate the bundle you really need ([Example](docs/EXAMPLES.md#bundles-for-browsers))
+* Run other tasks like linting, file system operations, etc. ([Example](docs/EXAMPLES.md#server-side-operations))
 * Write next generation ES6 JavaScript today with a transpiler plugin ([Example](https://github.com/seebigs/bundl-pack-babel))
 
 ---
@@ -76,10 +76,12 @@ $ npm run build
 ```
 
 ---
-## Ways to Use
-* [Live Developing](https://github.com/seebigs/bundl/wiki/Examples#live-developing)
-* [Bundles for Browsers](https://github.com/seebigs/bundl/wiki/Examples#bundles-for-browsers)
-* [Server-Side Operations](https://github.com/seebigs/bundl/wiki/Examples#server-side-operations)
+## How to Use
+* [Live Developing](docs/EXAMPLES.md#live-developing)
+* [Bundles for Browsers](docs/EXAMPLES.md#bundles-for-browsers)
+* [Server-Side Operations](docs/EXAMPLES.md#server-side-operations)
+* [Task Runner](docs/TASK_RUNNER.md)
+* [Specifying Targets](docs/TARGETS.md)
 
 ---
 ## Build Resources Live On-Demand!
@@ -98,58 +100,15 @@ Now, open a browser to `http://localhost:5555`
 
 HTTP Requests for a bundled resource will check to see if any of the source files within this bundle have changed since last request. If so, the webserver will rebuild the requested bundle before sending it back to the browser.
 
-Learn how to [configure your own webserver](https://github.com/seebigs/bundl/wiki/Webserver) on our wiki.
-
----
-## Task Management
-
-### Define Tasks
-```js
-var Bundl = require('bundl');
-
-Bundl.setTask('doit:sync', function () {
-    console.log('  My name is: ' + this.name);
-    return 123;
-});
-
-Bundl.setTask('doit:async', function (done) {
-    console.log('  My name is: ' + this.name);
-    setTimeout(function(){
-        if (typeof done === 'function') {
-            done(456);
-        }
-    }, 100);
-});
-
-Bundl.setTask('doit', function () {
-    Bundl.runTask('doit:async', doitCallback);
-    Bundl.runTask('doit:sync', doitCallback);
-});
-
-function doitCallback (result, name) {
-    console.log(name + ' = ' + result);
-}
-
-Bundl.load('./myTasks/*'); // runs any tasks passed via command line that are defined in the `myTasks` directory
-```
-
-### Run Tasks
-Run using the API
-```js
-Bundl.runTask('doFirst').then('doSecond');
-```
-Run from command line
-```
-$ node bundl doFirst doSecond
-```
+Learn how to [configure a devserver for your project](docs/BUILD_ON_DEMAND.md)
 
 ---
 ## Debugging
-Add `.debug()` to your build chain to print which src files will be bundled into which dest files
-```
-new Bundl(targets, bundlOptions).debug();
-```
 Add `--verbose` as a command line option to print more info about what's happening
 ```
 $ node bundl --verbose
+```
+Add `.debug()` to your build chain to print which src files will be bundled into which dest files
+```
+new Bundl(targets, bundlOptions).debug();
 ```

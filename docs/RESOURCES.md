@@ -1,10 +1,12 @@
-# Specification for a Standard Build Resource (SBR)
+# Resources
+
+Resource objects are created from the targets that are passed into Bundl.
 
 # r.name
     The name of the resource. This will be the default file name when output.
 
 # r.ext
-    The file type extension of the resource. This determines how the resource is treated by transforms, parsers, and plugins.
+    The file type extension of the resource (determines how the resource is treated by transforms, parsers, and plugins).
 
 # r.dest
     The full path of the destination directory
