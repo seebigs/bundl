@@ -28,7 +28,7 @@ Learn more about how to match specific targets on our [Targets](TARGETS.md) page
 ---
 
 ## then
-Add an operation into your bundl chain. Takes a Plugin Object. Use our [Popular Plugins](https://github.com/seebigs/bundl/wiki/Popular-Plugins) or if you feel ambitious you can always [write your own](https://github.com/seebigs/bundl/wiki/Writing-Your-Own-Plugin)! For convenience, `then` is chainable.
+Add an operation into your bundl chain. Takes a Plugin Object. Use our [Popular Plugins](PLUGINS.md#popular-plugins) or if you feel ambitious you can always [write your own](PLUGINS.md#writing-your-own-plugin)! For convenience, `then` is chainable.
 ```js
 b.then(somePlugin()).then(nextPlugin());
 ```
