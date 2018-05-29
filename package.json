@@ -39,7 +39,7 @@
     "bundl-copy": "^1.0.0",
     "bundl-eslint": "^2.0.0",
     "bundl-minify": "^2.0.0",
-    "bundl-pack": "^1.0.0",
+    "bundl-pack": "^1.1.0",
     "bundl-replace": "^2.0.0",
     "bundl-wrap": "^2.0.0",
     "eslint": "^4.19.1",
