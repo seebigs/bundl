@@ -1,7 +1,7 @@
 var exampleBuild = require('../example/build.js');
 var fs = require('fs');
 
-describe('common plugins', function (expect, done) {
+describe('plugins.spec', function (expect, done) {
     exampleBuild.go(function () {
             var outfile = fs.readFileSync('test/_out/sample.packed.min.js', 'utf8').split('//# sourceMappingURL=');
             var expected = fs.readFileSync('test/plugins_expected.js', 'utf8');
