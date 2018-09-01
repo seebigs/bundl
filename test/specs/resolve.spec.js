@@ -23,25 +23,40 @@ var oneLoadMe = {
     },
 };
 
+var oneLoadNoOpts = {
+    '_loadme/_one.js': {
+        name: '_loadme/_one.js',
+        ext: 'js',
+        dest: projectPath + '/specs/bundled/_loadme/_one.js',
+        options: {
+            srcDir: projectPath + '/specs',
+            outputDir: projectPath + '/specs/bundled'
+        },
+        src: [projectPath + '/_loadme/_one.js'],
+        sourcemaps: [],
+        chain: [],
+    },
+};
+
 var twoTwos = {};
-twoTwos[projectPath + '/_concatme/_two.js'] = {
-    name: projectPath + '/_concatme/_two.js',
+twoTwos['_concatme/_two.js'] = {
+    name: '_concatme/_two.js',
     ext: 'js',
-    dest: projectPath + '/specs/bundled' + projectPath + '/_concatme/_two.js',
+    dest: projectPath + '/specs/bundled/_concatme/_two.js',
     options: {
-        srcDir: projectPath + '/specs/',
+        srcDir: projectPath + '/specs',
         outputDir: projectPath + '/specs/bundled'
     },
     src: [projectPath + '/_concatme/_two.js'],
     sourcemaps: [],
     chain: [],
 };
-twoTwos[projectPath + '/_loadme/_two.js'] = {
-    name: projectPath + '/_loadme/_two.js',
+twoTwos['_loadme/_two.js'] = {
+    name: '_loadme/_two.js',
     ext: 'js',
-    dest: projectPath + '/specs/bundled' + projectPath + '/_loadme/_two.js',
+    dest: projectPath + '/specs/bundled/_loadme/_two.js',
     options: {
-        srcDir: projectPath + '/specs/',
+        srcDir: projectPath + '/specs',
         outputDir: projectPath + '/specs/bundled'
     },
     src: [projectPath + '/_loadme/_two.js'],
@@ -77,24 +92,24 @@ var concatMeOneTwo = {
 };
 
 var loadMeOneTwo = {};
-loadMeOneTwo[projectPath + '/_loadme/_one.js'] = {
-    name: projectPath + '/_loadme/_one.js',
+loadMeOneTwo['_loadme/_one.js'] = {
+    name: '_loadme/_one.js',
     ext: 'js',
-    dest: projectPath + '/specs/bundled' + projectPath + '/_loadme/_one.js',
+    dest: projectPath + '/specs/bundled/_loadme/_one.js',
     options: {
-        srcDir: projectPath + '/specs/',
+        srcDir: projectPath + '/specs',
         outputDir: projectPath + '/specs/bundled'
     },
     src: [projectPath + '/_loadme/_one.js'],
     sourcemaps: [],
     chain: [],
 };
-loadMeOneTwo[projectPath + '/_loadme/_two.js'] = {
-    name: projectPath + '/_loadme/_two.js',
+loadMeOneTwo['_loadme/_two.js'] = {
+    name: '_loadme/_two.js',
     ext: 'js',
-    dest: projectPath + '/specs/bundled' + projectPath + '/_loadme/_two.js',
+    dest: projectPath + '/specs/bundled/_loadme/_two.js',
     options: {
-        srcDir: projectPath + '/specs/',
+        srcDir: projectPath + '/specs',
         outputDir: projectPath + '/specs/bundled'
     },
     src: [projectPath + '/_loadme/_two.js'],
@@ -214,6 +229,12 @@ describe('resolve', function () {
         var resources = new Bundl(path.resolve('./test/_loadme/_one.js'), opt).getResources();
         cleanForComparison(resources);
         expect(resources).toBe(oneLoadMe);
+    });
+
+    describe('handles string file with no options', function (expect) {
+        var resources = new Bundl('../_loadme/_one.js').getResources();
+        cleanForComparison(resources);
+        expect(resources).toBe(oneLoadNoOpts);
     });
 
     describe('handles string dir', function (expect) {
